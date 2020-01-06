@@ -1,0 +1,26 @@
+name: picker
+description: Flutter plugin for selecting images from the Android and iOS, taking new pictures with the camera and saves on Gallery
+homepage: https://github.com/jonataslaw/picker
+version: 1.0.3+1
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: app.flutter.plugins.picker
+        pluginClass: ImagePickerPlugin
+      ios:
+        pluginClass: FLTImagePickerPlugin
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  video_player: 0.10.1+5
+  flutter_test:
+    sdk: flutter
+
+environment:
+  sdk: ">=2.0.0-dev.28.0 <3.0.0"
+  flutter: ">=1.10.0 <2.0.0"
