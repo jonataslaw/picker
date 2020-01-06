@@ -1,4 +1,4 @@
-# Media Picker plugin for Flutter
+# Picker plugin for Flutter
 
 A Flutter plugin for iOS and Android for picking images and videos from gallery or camera,
 and save files on gallery
@@ -33,10 +33,10 @@ class _MyHomePageState extends State<MyHomePage> {
   File _image;
 
   Future getImage() async {
-    var image = await picker.pickImage(source: ImageSource.camera,  maxHeight: 480, maxWidth: 640, quality: 75);
+    var image = await Picker.pickImage(source: ImageSource.camera,  maxHeight: 480, maxWidth: 640, quality: 75);
 
-    // if you want save on gallery:
-    var filePath = await MediaPicker.saveFile(fileData: image);
+    // if you want save a file on gallery:
+    var filePath = await Picker.saveFile(fileData: image);
 
     setState(() {
       _image = image;
