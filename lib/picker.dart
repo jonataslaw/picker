@@ -46,7 +46,6 @@ class Picker {
       double? maxWidth,
       double? maxHeight,
       int? imageQuality}) async {
-    assert(source != null);
     assert(imageQuality == null || (imageQuality >= 0 && imageQuality <= 100));
 
     if (maxWidth != null && maxWidth < 0) {
@@ -80,7 +79,6 @@ class Picker {
   static Future<File?> pickVideo({
     required ImageSource source,
   }) async {
-    assert(source != null);
     final String? path = await _channel.invokeMethod<String>(
       'pickVideo',
       <String, dynamic>{
@@ -92,8 +90,6 @@ class Picker {
 
   static Future<String> saveFile(
       {required Uint8List fileData, String? title, String? description}) async {
-    assert(fileData != null);
-
     String filePath = (await _channel.invokeMethod(
       'saveFile',
       <String, dynamic>{
