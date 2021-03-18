@@ -1,0 +1,15 @@
+.flutter-plugins
+.flutter-plugins-dependencies
+.dart_tool/package_config.json
+.dart_tool/package_config_subset
+.dart_tool/version
+android/local.properties
+android/local.properties
+android/local.properties
+ios/Flutter/Generated.xcconfig
+ios/Runner/GeneratedPluginRegistrant.h
+ios/Runner/GeneratedPluginRegistrant.m
+ios/Flutter/flutter_export_environment.sh
+android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java
+android/local.properties
+.packages
