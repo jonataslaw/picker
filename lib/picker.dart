@@ -41,11 +41,11 @@ class Picker {
   ///
   /// In Android, the MainActivity can be destroyed for various reasons. If that happens, the result will be lost
   /// in this call. You can then call [retrieveLostData] when your app relaunches to retrieve the lost data.
-  static Future<File> pickImage(
-      {@required ImageSource source,
-      double maxWidth,
-      double maxHeight,
-      int imageQuality}) async {
+  static Future<File?> pickImage(
+      {required ImageSource source,
+      double? maxWidth,
+      double? maxHeight,
+      int? imageQuality}) async {
     assert(source != null);
     assert(imageQuality == null || (imageQuality >= 0 && imageQuality <= 100));
 
@@ -57,7 +57,7 @@ class Picker {
       throw ArgumentError.value(maxHeight, 'maxHeight cannot be negative');
     }
 
-    final String path = await _channel.invokeMethod<String>(
+    final String? path = await _channel.invokeMethod<String>(
       'pickImage',
       <String, dynamic>{
         'source': source.index,
@@ -77,11 +77,11 @@ class Picker {
   ///
   /// In Android, the MainActivity can be destroyed for various fo reasons. If that happens, the result will be lost
   /// in this call. You can then call [retrieveLostData] when your app relaunches to retrieve the lost data.
-  static Future<File> pickVideo({
-    @required ImageSource source,
+  static Future<File?> pickVideo({
+    required ImageSource source,
   }) async {
     assert(source != null);
-    final String path = await _channel.invokeMethod<String>(
+    final String? path = await _channel.invokeMethod<String>(
       'pickVideo',
       <String, dynamic>{
         'source': source.index,
@@ -91,17 +91,17 @@ class Picker {
   }
 
   static Future<String> saveFile(
-      {@required Uint8List fileData, String title, String description}) async {
+      {required Uint8List fileData, String? title, String? description}) async {
     assert(fileData != null);
 
-    String filePath = await _channel.invokeMethod(
+    String filePath = (await _channel.invokeMethod(
       'saveFile',
       <String, dynamic>{
         'fileData': fileData,
         'title': title,
         'description': description
       },
-    );
+    ))!;
     debugPrint("saved filePath:" + filePath);
     //process ios return filePath
     if (filePath.startsWith("file://")) {
@@ -124,30 +124,30 @@ class Picker {
   /// * [LostDataResponse], for what's included in the response.
   /// * [Android Activity Lifecycle](https://developer.android.com/reference/android/app/Activity.html), for more information on MainActivity destruction.
   static Future<LostDataResponse> retrieveLostData() async {
-    final Map<String, dynamic> result =
+    final Map<String, dynamic>? result =
         await _channel.invokeMapMethod<String, dynamic>('retrieve');
     if (result == null) {
       return LostDataResponse.empty();
     }
     assert(result.containsKey('path') ^ result.containsKey('errorCode'));
 
-    final String type = result['type'];
+    final String? type = result['type'];
     assert(type == kTypeImage || type == kTypeVideo);
 
-    RetrieveType retrieveType;
+    RetrieveType? retrieveType;
     if (type == kTypeImage) {
       retrieveType = RetrieveType.image;
     } else if (type == kTypeVideo) {
       retrieveType = RetrieveType.video;
     }
 
-    PlatformException exception;
+    PlatformException? exception;
     if (result.containsKey('errorCode')) {
       exception = PlatformException(
           code: result['errorCode'], message: result['errorMessage']);
     }
 
-    final String path = result['path'];
+    final String? path = result['path'];
 
     return LostDataResponse(
         file: path == null ? null : File(path),
@@ -182,7 +182,7 @@ class LostDataResponse {
   /// The file that was lost in a previous [pickImage] or [pickVideo] call due to MainActivity being destroyed.
   ///
   /// Can be null if [exception] exists.
-  final File file;
+  final File? file;
 
   /// The exception of the last [pickImage] or [pickVideo].
   ///
@@ -191,10 +191,10 @@ class LostDataResponse {
   /// You should handle this exception as if the [pickImage] or [pickVideo] got an exception when the MainActivity was not destroyed.
   ///
   /// Note that it is not the exception that caused the destruction of the MainActivity.
-  final PlatformException exception;
+  final PlatformException? exception;
 
   /// Can either be [RetrieveType.image] or [RetrieveType.video];
-  final RetrieveType type;
+  final RetrieveType? type;
 
   bool _empty = false;
 }
